@@ -64,6 +64,13 @@ func addLabel(img *image.RGBA, y int, label string, fontSize float64) {
 	// Calculate x to center the text
 	x := (img.Rect.Max.X - textWidth) / 2
 
+	// Calculate y to center the text vertically
+	metrics := face.Metrics()
+	ascent := metrics.Ascent.Round()
+	descent := metrics.Descent.Round()
+	lineHeight := ascent + descent
+	y = y + ascent - lineHeight/2
+
 	point := fixed.Point26_6{X: fixed.Int26_6(x * 64), Y: fixed.Int26_6(y * 64)}
 
 	d := &font.Drawer{
